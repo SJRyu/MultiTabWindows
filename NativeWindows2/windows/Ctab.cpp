@@ -242,8 +242,6 @@ bool Ctab::InsertTab(TabWindow* tab)
 
 		assert(tab->SetParent(this) != NULL);
 
-		tab->parentv_ = topv_.Children();
-		tab->parentv_.InsertAtTop(tab->rootv_);
 		tab->client_->SetWindowPos(HWND_TOP,
 			0, ncm_->captionh,
 			refcontainer_->rect_.width,

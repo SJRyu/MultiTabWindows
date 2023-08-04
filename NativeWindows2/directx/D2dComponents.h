@@ -42,6 +42,7 @@ namespace NativeWindows
 
 		void InitCompositor();
 		void InitCompositor1(D2dComponents* parent);
+		void NewCompParent(D2dComponents* newp);
 
 		void ReleaseCompositor();
 		void ReleaseCompositor1();

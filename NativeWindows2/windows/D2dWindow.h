@@ -72,6 +72,18 @@ namespace NativeWindows
 
 		D2dWindow* d2dparent_;
 
+		virtual HWND SetParent(Win32Window* parent) override
+		{
+			auto ret = Win32Window::SetParent(parent);
+			if (ret != NULL)
+			{
+				d2dparent_ = static_cast<D2dWindow*>(parent);
+
+				NewCompParent(d2dparent_);
+			}
+			return ret;
+		}
+
 		virtual void WINAPI ShowWindow(int nCmdShow = SW_SHOW) override
 		{
 			if (nCmdShow == SW_HIDE)

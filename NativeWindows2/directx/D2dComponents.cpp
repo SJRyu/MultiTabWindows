@@ -75,6 +75,19 @@ void D2dComponents::InitCompositor1(D2dComponents* parent)
 	animesize_.Duration(timespan(400));
 }
 
+void D2dComponents::NewCompParent(D2dComponents* newp)
+{
+	if (parentv_ != nullptr)
+	{
+		parentv_.Remove(rootv_);
+	}
+
+	parentv_ = newp->topv_.Children();
+	parentv_.InsertAtTop(rootv_);
+
+	target_ = newp->target_;
+}
+
 void D2dComponents::ReleaseCompositor1()
 {
 	animesize_.Close();

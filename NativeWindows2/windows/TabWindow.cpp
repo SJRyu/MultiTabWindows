@@ -296,7 +296,7 @@ LRESULT TabWindow::OnMousemove(int state, int x, int y)
 
 HWND TabWindow::SetParent(Win32Window* parent)
 {
-	auto ret = Win32Window::SetParent(parent);
+	auto ret = D2dWindow1::SetParent(parent);
 	if (ret != NULL)
 	{
 		ctab_ = (Ctab*)parent;

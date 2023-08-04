@@ -6,4 +6,4 @@ Win32 + Winui2 Compositor and Multithreading - A thread per tab.
 Sample is a viewer for ipcams - But actual connection and playing is ditched.
 You can see basic operations on windows and dialog with that.  
   
-VS2022, x64.
+VS2022, Win10, x64, Debug.

@@ -15,14 +15,31 @@ namespace NativeWindows
 	{
 	public:
 
-		inline VideoPannel(D2dWinArgs const& args) : D2dWindow1(args) 
+		inline VideoPannel(NvrTab* tab) : tab_(tab)
 		{
 			wstyle_ |= WS_VISIBLE;
 		};
 		virtual ~VideoPannel() {}
 
+		NvrTab* tab_;
+
 		std::array<wunique_ptr<VideoView>, MAX_CAM_COUNT> views_;
 		wunique_ptr<TestWindow1> svgwin_;
+
+		static constexpr int MIN_WIDTH = 1280;
+		static constexpr int MIN_HEIGHT = 720;
+
+		virtual void WINAPI MinSize(int* w, int* h) override
+		{ 
+			*w = MIN_WIDTH;
+			*h = MIN_HEIGHT;
+		}
+
+		virtual void CALLBACK OnPageResize(int w, int h) override
+		{
+			SetWindowPos(0, 0, 0,
+				w, h, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW1);
+		}
 
 		virtual void CreateEx() override
 		{
@@ -42,9 +59,6 @@ namespace NativeWindows
 			D2dWindow1::SetWindowPos(insertafter, x, y, cx, cy, flags);
 		}
 
-		static constexpr int MIN_WIDTH = 1280;
-		static constexpr int MIN_HEIGHT = 720;
-
 	protected:
 
 		void WINAPI CalcChildRect(int pos, CRECT<LONG>* outref);
@@ -52,24 +66,5 @@ namespace NativeWindows
 		virtual LRESULT CALLBACK OnCreate1(LPCREATESTRUCT createstr) override;
 		virtual LRESULT CALLBACK OnSize(WPARAM state, int width, int height) override;
 		virtual VOID CALLBACK OnClose1() override;
-	};
-
-	class NvrWindow : public D2dWindow
-	{
-	public:
-
-		NvrWindow(NvrTab* tab);
-		virtual ~NvrWindow() {};
-
-		NvrTab* tab_;
-
-	protected:
-
-		wunique_ptr<ClientScroll> scrollw_;
-
-		virtual LRESULT CALLBACK OnCreate1(LPCREATESTRUCT createstr) override;
-		virtual LRESULT CALLBACK OnSize(WPARAM state, int width, int height) override;
-		virtual VOID CALLBACK OnClose1() override;
-
 	};
 }

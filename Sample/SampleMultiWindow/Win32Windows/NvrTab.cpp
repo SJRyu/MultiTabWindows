@@ -15,7 +15,7 @@ NvrTab::NvrTab(Ctab* parent) : TabWindow(parent)
 	OnSetup = [](TabWindow* sender)
 	{
 		NvrTab* tab = (NvrTab*)sender;
-		auto content = new NvrWindow(tab);
+		auto content = new VideoPannel(tab);
 		tab->SetContent(content);
 
 		auto count = MyApp::UpCountTab();

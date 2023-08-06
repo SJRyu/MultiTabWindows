@@ -16,9 +16,7 @@ namespace NativeWindows
 	public:
 
 		inline IndependentRes() {};
-		inline virtual ~IndependentRes()
-		{
-		};
+		virtual ~IndependentRes() {};
 
 		IndependentRes(const IndependentRes& r) = delete;
 		IndependentRes& operator=(const IndependentRes& r) = delete;

@@ -36,7 +36,7 @@ namespace NativeWindows
 			D2dWindow1(args), bgcolor_(bg) {};
 		virtual ~ScrollWindow() {};
 
-		Windows::UI::Color bgcolor_;
+		Windows::UI::Color bgcolor_ = Colors::WhiteSmoke();
 		SpriteVisual visualbg_{ nullptr };
 
 		wunique_ptr<Win32Window> target_;
@@ -95,13 +95,23 @@ namespace NativeWindows
 	public:
 
 		inline ClientScroll() {};
+		
 		inline ClientScroll(D2dWinArgs const& args,
-			int minw, int minh,
 			Color const& bg = Colors::WhiteSmoke()) :
-			ScrollWindow(args, bg), minw_(minw), minh_(minh) {};
+			ScrollWindow(args, bg) {};
+
 		virtual ~ClientScroll() {};
 
-		int minw_ = 0 , minh_ = 0;
+		int tminw_ = 0 , tminh_ = 0;
+
+		virtual void SetTarget(Win32Window* target) override
+		{
+			// target must be D2dWindow1
+			auto temp = static_cast<D2dWindow1*>(target);
+			temp->SetD2dArgs({ nullptr, this, thread_ });
+			temp->MinSize(&tminw_, &tminh_);
+			target_ = wunique_ptr<Win32Window>(target);
+		}
 
 	protected:
 

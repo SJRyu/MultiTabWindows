@@ -80,37 +80,3 @@ void VideoPannel::CalcChildRect(int pos, CRECT<LONG>* outref)
 	outref->width = cw;
 	outref->height = ch;
 }
-
-NvrWindow::NvrWindow(NvrTab* tab) : tab_(tab)
-{
-	wstyle_ |= WS_VISIBLE;
-}
-
-LRESULT NvrWindow::OnCreate1(LPCREATESTRUCT createstr)
-{
-	RECT rect{ 0, 0, rect_.width, rect_.height };
-	scrollw_ = wmake_unique<ClientScroll>(D2dWinArgs{ &rect_, this }, 
-		VideoPannel::MIN_WIDTH, VideoPannel::MIN_HEIGHT);
-	rect.right = DpiVal(VideoPannel::MIN_WIDTH);
-	rect.bottom = DpiVal(VideoPannel::MIN_HEIGHT);;
-	auto target = new VideoPannel(D2dWinArgs{ &rect, scrollw_.get() });
-	scrollw_->SetTarget(target);
-	scrollw_->CreateEx();
-	scrollw_->ShowWindow();
-
-	return 0;
-}
-
-LRESULT NvrWindow::OnSize(WPARAM state, int width, int height)
-{
-	scrollw_->SetWindowPos(0, 
-		0, 0, width, height, 
-		SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW1);
-
-	return 0;
-}
-
-VOID NvrWindow::OnClose1()
-{
-	scrollw_.reset();
-}

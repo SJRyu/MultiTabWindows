@@ -51,15 +51,9 @@ namespace NativeWindows
 	public:
 
 		inline D2dWindow1() {}
-		inline void SetWindowArgs(D2dWinArgs const& args)
-		{
-			Win32Window::SetWindowArgs({ args.rect, args.parent, args.thread });
-			d2dparent_ = args.parent;
-		}
-
 		inline D2dWindow1(D2dWinArgs const& args)
 		{
-			SetWindowArgs(args);
+			SetD2dArgs(args);
 		}
 
 		virtual ~D2dWindow1()
@@ -70,9 +64,15 @@ namespace NativeWindows
 			}
 		}
 
+		inline void SetD2dArgs(D2dWinArgs const& args)
+		{
+			SetWindowArgs({ args.rect, args.parent, args.thread });
+			d2dparent_ = args.parent;
+		}
+
 		D2dWindow* d2dparent_;
 
-		virtual HWND SetParent(Win32Window* parent) override
+		virtual HWND WINAPI SetParent(Win32Window* parent) override
 		{
 			auto ret = Win32Window::SetParent(parent);
 			if (ret != NULL)

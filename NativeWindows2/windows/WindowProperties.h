@@ -45,8 +45,6 @@ namespace NativeWindows
 		UM_BTNCLICKED,
 		
 		UM_SCROLLTARGET,
-		//UM_CHILD_SIZE,
-		//UM_CHILD_MOVE,
 
 		UM_TAB_ADD,
 		UM_TAB_REMOVE,

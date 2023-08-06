@@ -40,7 +40,7 @@ namespace NativeWindows
 		std::function<void(TabWindow*)> OnTabClose = [](TabWindow*) {};
 
 		void StopDragging();
-		virtual HWND SetParent(Win32Window* parent) override;
+		virtual HWND WINAPI SetParent(Win32Window* parent) override;
 
 		void SetContent(Win32Window* content);
 

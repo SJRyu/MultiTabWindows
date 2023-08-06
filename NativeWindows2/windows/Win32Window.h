@@ -67,39 +67,42 @@ namespace NativeWindows
 		Win32Window(Win32Window const& r) = delete;
 		Win32Window& operator=(const Win32Window& r) = delete;
 
-		void SetWindowArgs(WinArgs const& args);
+		void WINAPI SetWindowArgs(WinArgs const& args);
 
 		//Child into child only allowed. and need samethread on parents.
-		virtual HWND SetParent(Win32Window* parent);
+		virtual HWND WINAPI SetParent(Win32Window* parent);
+
+		virtual void WINAPI MinSize(int* w, int* h) { *w = 0; *h = 0; }
+		virtual void CALLBACK OnPageResize(int w, int h) {}
 
 		// assert for debugging, have to clear in release.
-		inline virtual void WINAPI MoveWindow(int x, int y)
+		virtual void WINAPI MoveWindow(int x, int y)
 		{
 			assert(::SetWindowPos(hwnd_, 0, x, y, 0, 0,
 				SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW1) != FALSE);
 		}
 
-		inline virtual void WINAPI MoveWindowAsync(int x, int y)
+		virtual void WINAPI MoveWindowAsync(int x, int y)
 		{
 			assert(::SetWindowPos(hwnd_, 0, x, y, 0, 0,
 				SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW1 | SWP_ASYNCWINDOWPOS) != FALSE);
 		}
 
-		inline virtual void WINAPI SetWindowPos(
+		virtual void WINAPI SetWindowPos(
 			HWND insertafter, int x, int y, int cx, int cy, UINT flags)
 		{
 			flags |= SWP_NOACTIVATE | SWP_NOREDRAW1;
 			assert(::SetWindowPos(hwnd_, insertafter, x, y, cx, cy, flags) != FALSE);
 		}
 
-		inline virtual void WINAPI SetWindowPosAsync(
+		virtual void WINAPI SetWindowPosAsync(
 			HWND insertafter, int x, int y, int cx, int cy, UINT flags)
 		{
 			flags |= SWP_NOACTIVATE | SWP_NOREDRAW1 | SWP_ASYNCWINDOWPOS;
 			assert(::SetWindowPos(hwnd_, insertafter, x, y, cx, cy, flags) != FALSE);
 		}
 
-		inline virtual void WINAPI ShowWindow(int nCmdShow = SW_SHOW)
+		virtual void WINAPI ShowWindow(int nCmdShow = SW_SHOW)
 		{
 			::ShowWindow(hwnd_, nCmdShow);
 		}
@@ -168,55 +171,55 @@ namespace NativeWindows
 		WNDPROC oldproc_ = NULL;
 		bool bVbi_ = false;
 
-		inline virtual LRESULT CALLBACK OnCreate(LPCREATESTRUCT createstr) { return 0; }
-		inline virtual void CALLBACK OnClose() {}
-		inline virtual void CALLBACK OnDestroy() {}
-		inline virtual void CALLBACK OnDpichanged(UINT uMsg, WPARAM wParam, LPARAM lParam) {}
-		inline virtual LRESULT CALLBACK OnDpichangedAfterparent() { return 0; }
+		virtual LRESULT CALLBACK OnCreate(LPCREATESTRUCT createstr) { return 0; }
+		virtual void CALLBACK OnClose() {}
+		virtual void CALLBACK OnDestroy() {}
+		virtual void CALLBACK OnDpichanged(UINT uMsg, WPARAM wParam, LPARAM lParam) {}
+		virtual LRESULT CALLBACK OnDpichangedAfterparent() { return 0; }
 
-		inline virtual LRESULT OnNcHitTest(LPARAM lParam)
+		virtual LRESULT CALLBACK OnNcHitTest(LPARAM lParam)
 		{
 			return DefWindowProc(hwnd_, WM_NCHITTEST, 0, lParam);
 		};
 
-		inline virtual LRESULT CALLBACK OnEnterSizemove() { return 0; }
-		inline virtual LRESULT CALLBACK OnExitSizemove() { return 0; }
+		virtual LRESULT CALLBACK OnEnterSizemove() { return 0; }
+		virtual LRESULT CALLBACK OnExitSizemove() { return 0; }
 
-		inline virtual void CALLBACK OnSizing(WPARAM wParam, LPARAM lParam) {}
-		inline virtual LRESULT CALLBACK OnMove(int x, int y) { return 0; }
-		inline virtual LRESULT CALLBACK OnSize(WPARAM state, int width, int height) { return 0; }
-		inline virtual LRESULT CALLBACK OnPaint() 
+		virtual void CALLBACK OnSizing(WPARAM wParam, LPARAM lParam) {}
+		virtual LRESULT CALLBACK OnMove(int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnSize(WPARAM state, int width, int height) { return 0; }
+		virtual LRESULT CALLBACK OnPaint() 
 		{ 
 			ValidateView();
 			return 0;
 		}
 
-		inline virtual LRESULT CALLBACK OnMousemove(int state, int x, int y) { return 0; }
-		inline virtual LRESULT CALLBACK OnMouseleave() { return 0; }
-		inline virtual LRESULT CALLBACK OnMouseHover(WPARAM wp, LPARAM lp) { return 0; };
-		inline virtual BOOL CALLBACK OnMouseWheel(WPARAM wp, LPARAM lp) { return FALSE; };
-		inline virtual LRESULT CALLBACK OnLbtndown(int state, int x, int y) { return 0; }
-		inline virtual LRESULT CALLBACK OnLbtndouble(int state, int x, int y) { return 0; }
-		inline virtual LRESULT CALLBACK OnLbtnup(int state, int x, int y) { return 0; }
-		//inline virtual LRESULT CALLBACK OnRbtndown(int stae, int x, int y) { return 0; }
-		inline virtual BOOL CALLBACK OnContextMenu(HWND hwnd, int xpos, int ypos) { return FALSE; }
-		inline virtual LRESULT CALLBACK OnCommand(WPARAM wp, LPARAM lp) { return FALSE; }
+		virtual LRESULT CALLBACK OnMousemove(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnMouseleave() { return 0; }
+		virtual LRESULT CALLBACK OnMouseHover(WPARAM wp, LPARAM lp) { return 0; };
+		virtual BOOL CALLBACK OnMouseWheel(WPARAM wp, LPARAM lp) { return FALSE; };
+		virtual LRESULT CALLBACK OnLbtndown(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnLbtndouble(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnLbtnup(int state, int x, int y) { return 0; }
+		//virtual LRESULT CALLBACK OnRbtndown(int stae, int x, int y) { return 0; }
+		virtual BOOL CALLBACK OnContextMenu(HWND hwnd, int xpos, int ypos) { return FALSE; }
+		virtual LRESULT CALLBACK OnCommand(WPARAM wp, LPARAM lp) { return FALSE; }
 
-		inline virtual LRESULT CALLBACK OnCButtonClicked(WPARAM wp, LPARAM lp) { return 0; }
-		inline virtual LRESULT CALLBACK OnHScrollCmd(WPARAM wp, LPARAM lp) { return 0; }
-		inline virtual LRESULT CALLBACK OnVScrollCmd(WPARAM wp, LPARAM lp) { return 0; }
-		inline virtual LRESULT CALLBACK OnVbi(WPARAM wp, LPARAM lp) { return 0; }
-		inline virtual void CALLBACK OnClientMove(WPARAM wp, LPARAM lp)
+		virtual LRESULT CALLBACK OnCButtonClicked(WPARAM wp, LPARAM lp) { return 0; }
+		virtual LRESULT CALLBACK OnHScrollCmd(WPARAM wp, LPARAM lp) { return 0; }
+		virtual LRESULT CALLBACK OnVScrollCmd(WPARAM wp, LPARAM lp) { return 0; }
+		virtual LRESULT CALLBACK OnVbi(WPARAM wp, LPARAM lp) { return 0; }
+		virtual void CALLBACK OnClientMove(WPARAM wp, LPARAM lp)
 		{
 			MoveWindow((int)wp, (int)lp);
 		}
-		inline virtual void CALLBACK OnClientResize(WPARAM wp, LPARAM lp) 
+		virtual void CALLBACK OnClientResize(WPARAM wp, LPARAM lp) 
 		{ 
 			SetWindowPos(0, 0, 0, (int)wp, (int)lp,
 				SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOREDRAW1);
 		}
 
-		inline virtual LRESULT CALLBACK UserMsgHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+		virtual LRESULT CALLBACK UserMsgHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			return DefWindowProc(hWnd, uMsg, wParam, lParam);
 		}
@@ -228,7 +231,7 @@ namespace NativeWindows
 		}
 
 		static LRESULT CALLBACK EnterProc_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT CALLBACK OnNcCreate_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		LRESULT CALLBACK OnNcCreate_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		static LRESULT CALLBACK PreProc_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK PreProcForRoot_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

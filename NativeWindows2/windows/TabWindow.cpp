@@ -55,7 +55,7 @@ void TabWindow::CreateEx()
 
 void TabWindow::SetClient()
 {
-	client_ = wmake_unique<ClientWindow>(this);
+	client_ = wmake_unique<ClientWindow1>(this);
 }
 
 LRESULT TabWindow::OnCreate1(LPCREATESTRUCT createstr)

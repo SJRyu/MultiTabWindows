@@ -400,8 +400,8 @@ LRESULT ClientScroll::OnSize(WPARAM state, int width, int height)
 		SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW1);
 
 	int tw, th;
-	int minw = DpiVal(minw_);
-	int minh = DpiVal(minh_);
+	int minw = DpiVal(tminw_);
+	int minh = DpiVal(tminh_);
 
 	targetRect_ = target_->rect_;
 	if (width >= minw) //hscroll off
@@ -431,9 +431,7 @@ LRESULT ClientScroll::OnSize(WPARAM state, int width, int height)
 		th = height - thick;
 	}
 
-	target_->SetWindowPos(0,
-		0, 0, tw, th,
-		SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW1);
+	target_->OnPageResize(tw, th);
 
 	UpdateScroll();
 	UpdateScrollbar();

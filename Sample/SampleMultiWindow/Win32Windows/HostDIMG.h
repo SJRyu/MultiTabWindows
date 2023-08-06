@@ -36,6 +36,6 @@ namespace NativeWindows
 
 		virtual LRESULT CALLBACK OnCreate1(LPCREATESTRUCT createstr) override;
 		virtual LRESULT CALLBACK OnSize(WPARAM state, int width, int height) override;
-		virtual LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+		virtual LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 	};
 }

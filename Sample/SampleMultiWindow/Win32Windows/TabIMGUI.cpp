@@ -28,7 +28,7 @@ TabIMGUI::~TabIMGUI()
 
 void TabIMGUI::SetClient()
 {
-	auto client = new ClientWindow1(this);
+	auto client = new ClientWindow(this);
 	client->OnShowWindow = [](ClientWindow* sender, int cmd)
 	{
 		sender->GetContent()->ShowWindow(cmd);

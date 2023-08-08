@@ -142,6 +142,29 @@ LRESULT TabWindow::OnCreate1(LPCREATESTRUCT createstr)
 	OnSetup(this);
 	client_->CreateEx();
 
+	// Create a tooltip.
+	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		hwnd_, NULL, g_hinst, NULL);
+
+	::SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
+		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+	// Set up "tool" information. In this case, the "tool" is the entire parent window.
+
+	TOOLINFO ti = { 0 };
+	ti.cbSize = sizeof(TOOLINFO);
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hwnd = hwnd_;
+	ti.hinst = g_hinst;
+	ti.lpszText = (LPWSTR)title_.c_str();
+
+	GetClientRect(hwnd_, &ti.rect);
+
+	// Associate the tooltip with the "tool" window.
+	::SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
+
 	AnimeMoveVisuals(rect_.left, rect_.top);
 	SetActivate(hover_activate);
 

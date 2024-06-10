@@ -3,8 +3,6 @@
 #include <NativeWindows2/windows/VideoWindow.h>
 #include <WinSock2.h>
 
-//RTSP and Decoder is not implemented in this sample.
-//Below class is just a sample for the future RTSPclient.
 class __declspec(novtable) RtspcCallback
 {
 public:
@@ -38,7 +36,7 @@ namespace NativeWindows
 
 		inline void ReleaseRtspc()
 		{
-			//RTSP is not implemented in this sample.
+			//
 		}
 
 	protected:

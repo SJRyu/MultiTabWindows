@@ -26,14 +26,14 @@ namespace NativeWindows
 		virtual LRESULT CALLBACK OnLbtndown(int state, int x, int y) override;
 	};
 
-	class NATIVEWINDOWS2_API ScrollWindow : public D2dWindow1
+	class NATIVEWINDOWS2_API ScrollWindow : public D2dWindow
 	{
 	public:
 
 		inline ScrollWindow() {};
-		inline ScrollWindow(D2dWinArgs const& args, 
+		inline ScrollWindow(WinArgs const& args,
 			Color const& bg = Colors::WhiteSmoke()) : 
-			D2dWindow1(args), bgcolor_(bg) {};
+			D2dWindow(args), bgcolor_(bg) {};
 		virtual ~ScrollWindow() {};
 
 		Windows::UI::Color bgcolor_ = Colors::WhiteSmoke();
@@ -96,7 +96,7 @@ namespace NativeWindows
 
 		inline ClientScroll() {};
 		
-		inline ClientScroll(D2dWinArgs const& args,
+		inline ClientScroll(WinArgs const& args,
 			Color const& bg = Colors::WhiteSmoke()) :
 			ScrollWindow(args, bg) {};
 

@@ -194,14 +194,26 @@ namespace NativeWindows
 			return 0;
 		}
 
+		virtual LRESULT CALLBACK OnMouseEvent(UINT msg, WPARAM wp, LPARAM lp);
 		virtual LRESULT CALLBACK OnMousemove(int state, int x, int y) { return 0; }
+		//aware the transparenting when wheel
+		virtual BOOL CALLBACK OnMouseWheel(WPARAM wp, LPARAM lp) { return FALSE; }
+		virtual LRESULT CALLBACK OnLbtndown(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnLbtnup(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnLbtndouble(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnRbtndown(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnRbtnup(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnRbtndouble(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnMbtndown(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnMbtnup(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnMbtndouble(int state, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnXbtndown(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnXbtnup(int stae, int x, int y) { return 0; }
+		virtual LRESULT CALLBACK OnXbtndouble(int state, int x, int y) { return 0; }
+		//when track
 		virtual LRESULT CALLBACK OnMouseleave() { return 0; }
 		virtual LRESULT CALLBACK OnMouseHover(WPARAM wp, LPARAM lp) { return 0; };
-		virtual BOOL CALLBACK OnMouseWheel(WPARAM wp, LPARAM lp) { return FALSE; };
-		virtual LRESULT CALLBACK OnLbtndown(int state, int x, int y) { return 0; }
-		virtual LRESULT CALLBACK OnLbtndouble(int state, int x, int y) { return 0; }
-		virtual LRESULT CALLBACK OnLbtnup(int state, int x, int y) { return 0; }
-		//virtual LRESULT CALLBACK OnRbtndown(int stae, int x, int y) { return 0; }
+
 		virtual BOOL CALLBACK OnContextMenu(HWND hwnd, int xpos, int ypos) { return FALSE; }
 		virtual LRESULT CALLBACK OnCommand(WPARAM wp, LPARAM lp) { return FALSE; }
 
@@ -237,7 +249,6 @@ namespace NativeWindows
 		static LRESULT CALLBACK PreProcForRoot_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		virtual LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT CALLBACK WndProcForRoot(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	};
 
 	struct Deleter

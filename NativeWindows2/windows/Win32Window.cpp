@@ -214,20 +214,107 @@ LRESULT Win32Window::PreProcForRoot_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 {
 	Win32Window* instance = (Win32Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
-	return instance->WndProcForRoot(hWnd, uMsg, wParam, lParam);
+	{
+		LRESULT hr;
+		if (DwmDefWindowProc(hWnd, uMsg, wParam, lParam, &hr))
+		{
+			return hr;
+		}
+	}
+	return instance->WndProc(hWnd, uMsg, wParam, lParam);
+}
+
+LRESULT Win32Window::OnMouseEvent(UINT msg, WPARAM wp, LPARAM lp)
+{
+	// need to call SetFocus somewhere
+	switch (msg)
+	{
+	case WM_MOUSEMOVE:
+	{
+		return OnMousemove((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_MOUSEWHEEL:
+	{
+		if (OnMouseWheel(wp, lp))
+		{
+			return 0;
+		}
+		else
+		{
+			//transparenting
+			break;
+		}
+	}
+	case WM_LBUTTONDOWN:
+	{
+		::SetFocus(hwnd_);
+		return OnLbtndown((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_LBUTTONUP:
+	{
+		return OnLbtnup((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_LBUTTONDBLCLK:
+	{
+		return OnLbtndouble((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_RBUTTONDOWN:
+	{
+		::SetFocus(hwnd_);
+		return OnRbtndown((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_RBUTTONUP:
+	{
+		return OnRbtnup((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_RBUTTONDBLCLK:
+	{
+		return OnRbtndouble((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_MBUTTONDOWN:
+	{
+		::SetFocus(hwnd_);
+		return OnMbtndown((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_MBUTTONUP:
+	{
+		return OnMbtnup((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_MBUTTONDBLCLK:
+	{
+		return OnMbtndouble((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_XBUTTONDOWN:
+	{
+		return OnXbtndown((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_XBUTTONUP:
+	{
+		return OnXbtnup((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	case WM_XBUTTONDBLCLK:
+	{
+		return OnXbtndouble((int)wp, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+	}
+	default:
+		break;
+	}
+	return DefWindowProc(hwnd_, msg, wp, lp);
 }
 
 LRESULT Win32Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST)
+	{
+		//dbg_msg("mouseEv = %x", uMsg);
+		return OnMouseEvent(uMsg, wParam, lParam);
+	}
+
 	switch (uMsg)
 	{
 	case WM_NCHITTEST:
 	{
 		return OnNcHitTest(lParam);
-	}
-	case WM_MOUSEMOVE:
-	{
-		return OnMousemove((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 	}
 	case WM_SIZING:
 	{
@@ -267,17 +354,6 @@ LRESULT Win32Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return OnMouseHover(wParam, lParam);
 	}
-	case WM_MOUSEWHEEL:
-	{
-		if (OnMouseWheel(wParam, lParam))
-		{
-			return 0;
-		}
-		else
-		{
-			break;
-		}
-	}
 	case WM_PAINT:
 	{
 		return OnPaint();
@@ -285,19 +361,6 @@ LRESULT Win32Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ERASEBKGND:
 	{
 		return true;
-	}
-	case WM_LBUTTONDOWN:
-	{
-		::SetFocus(hwnd_);
-		return OnLbtndown((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_LBUTTONDBLCLK:
-	{
-		return OnLbtndouble((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_LBUTTONUP:
-	{
-		return OnLbtnup((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 	}
 	case WM_CONTEXTMENU:
 	{
@@ -370,159 +433,14 @@ LRESULT Win32Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hwnd_ = nullptr;
 		return 0;
 	}
-	}
-	return UserMsgHandler(hWnd, uMsg, wParam, lParam);
-}
-
-LRESULT Win32Window::WndProcForRoot(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-#if 1
-	{
-		LRESULT hr;
-		if (DwmDefWindowProc(hWnd, uMsg, wParam, lParam, &hr))
-		{
-			return hr;
-		}
-	}
-#endif
-	switch (uMsg)
-	{
-	case WM_NCHITTEST:
-	{
-		return OnNcHitTest(lParam);
-	}
-	case WM_MOUSEMOVE:
-	{
-		return OnMousemove((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_SIZING:
-	{
-		OnSizing(wParam, lParam);
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
-	}
-	case WM_SIZE:
-	{
-		int width = LOWORD(lParam);
-		int height = HIWORD(lParam);
-		rect_.width = width;
-		rect_.height = height;
-		return OnSize(wParam, width, height);
-	}
-	case WM_MOVE:
-	{
-		int x = GET_X_LPARAM(lParam);
-		int y = GET_Y_LPARAM(lParam);
-		rect_.MoveToXY(x, y);
-		return OnMove(x, y);
-	}
-	case WM_ENTERSIZEMOVE:
-	{
-		isSizing_ = true;
-		return OnEnterSizemove();
-	}
-	case WM_EXITSIZEMOVE:
-	{
-		isSizing_ = false;
-		return OnExitSizemove();
-	}
-	case WM_MOUSELEAVE:
-	{
-		return OnMouseleave();
-	}
-	case WM_MOUSEHOVER:
-	{
-		return OnMouseHover(wParam, lParam);
-	}
-	case WM_MOUSEWHEEL:
-	{
-		if (OnMouseWheel(wParam, lParam))
-		{
-			return 0;
-		}
-		else
-		{
-			break;
-		}
-	}
-	case WM_PAINT:
-	{
-		return OnPaint();
-	}
-	case WM_ERASEBKGND:
-	{
-		return true;
-	}
-	case WM_LBUTTONDBLCLK:
-	{
-		return OnLbtndouble((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_LBUTTONDOWN:
-	{
-		::SetFocus(hwnd_);
-		return OnLbtndown((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_LBUTTONUP:
-	{
-		return OnLbtnup((int)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	}
-	case WM_CONTEXTMENU:
-	{
-		if (OnContextMenu((HWND)wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)))
-		{
-			return 0;
-		}
-		else
-		{
-			break;
-		}
-	}
-	case WM_COMMAND:
-	{
-		if (OnCommand(wParam, lParam))
-		{
-			return 0;
-		}
-		else
-		{
-			break;
-		}
-	}
-	case UM_BTNCLICKED:
-	{
-		return OnCButtonClicked(wParam, lParam);
-	}
 	case WM_DPICHANGED:
 	{
+		//only for root window
 		ncm_->dpix = LOWORD(wParam);
 		ncm_->dpiy = HIWORD(wParam);
 		AdjustNcSize(ncm_->dpiy, ncm_);
 
 		OnDpichanged(uMsg, wParam, lParam);
-		return 0;
-	}
-	case WM_CREATE:
-	{
-		hwnd_ = hWnd;
-		auto ret = OnCreate((LPCREATESTRUCT)lParam);
-		ResetEvent(evclosed_);
-		return ret;
-	}
-	case WM_CLOSE:
-	{
-		PostMessage(hwnd_, UM_CLOSE, 0, 0);
-		return 0;
-	}
-	case UM_CLOSE:
-	{
-		OnClose();
-		DestroyWindow(hwnd_);
-		return 0;
-	}
-	case WM_DESTROY:
-	{
-		OnDestroy();
-		SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)oldproc_);
-		hwnd_ = nullptr;
 		return 0;
 	}
 	}

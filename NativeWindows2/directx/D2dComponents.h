@@ -28,7 +28,7 @@ namespace NativeWindows
 		Win32Window* window_ = nullptr;
 		IndependentRes* refres_ = nullptr;
 
-		DesktopWindowTarget target_{ nullptr };
+		DesktopWindowTarget target_{ nullptr }; //useless
 		VisualCollection parentv_{ nullptr };
 
 		ContainerVisual rootv_{ nullptr };

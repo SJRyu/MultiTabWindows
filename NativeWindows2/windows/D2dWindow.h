@@ -129,6 +129,7 @@ namespace NativeWindows
 		{
 			D2dWindow::CreateEx();
 			//CreateEx 안에서 size와 move가 걸리는 경우 비주얼을 재조정해야 한다.
+			//animation을 따로 걸경우에는 오버라이드하거나 상위 CreateEx()를 사용할것.
 			MoveVisuals(rect_.left, rect_.top);
 			SizeVisuals(rect_.width, rect_.height);
 		}

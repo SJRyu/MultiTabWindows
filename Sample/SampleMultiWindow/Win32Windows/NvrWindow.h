@@ -1,7 +1,6 @@
 #pragma once
 
 #include <NativeWindows2/windows/D2dWindow.h>
-#include <NativeWindows2/windows/ScrollWindow.h>
 #include <Win32Windows/VideoView.h>
 #include <Win32Windows/TestWindow1.h>
 

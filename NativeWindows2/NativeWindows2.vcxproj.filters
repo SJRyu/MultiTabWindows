@@ -132,6 +132,15 @@
     <ClInclude Include="windows\Scrollbar.h">
       <Filter>소스 파일\windows</Filter>
     </ClInclude>
+    <ClInclude Include="composition\InputSync.h">
+      <Filter>소스 파일\composition</Filter>
+    </ClInclude>
+    <ClInclude Include="composition\Cvobj.h">
+      <Filter>소스 파일\composition</Filter>
+    </ClInclude>
+    <ClInclude Include="composition\Cpannel.h">
+      <Filter>소스 파일\composition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -202,6 +211,15 @@
     </ClCompile>
     <ClCompile Include="windows\Scrollbar.cpp">
       <Filter>소스 파일\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="composition\InputSync.cpp">
+      <Filter>소스 파일\composition</Filter>
+    </ClCompile>
+    <ClCompile Include="composition\Cvobj.cpp">
+      <Filter>소스 파일\composition</Filter>
+    </ClCompile>
+    <ClCompile Include="composition\Cpannel.cpp">
+      <Filter>소스 파일\composition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

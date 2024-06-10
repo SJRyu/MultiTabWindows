@@ -50,7 +50,8 @@ void TabWindow::CreateEx()
 	rect_.width = (int)ctab_->tabwidth_;
 	rect_.height = ncm_->tabh;
 
-	D2dWindow1::CreateEx();
+	//D2dWindow1::CreateEx();
+	D2dWindow::CreateEx();
 }
 
 void TabWindow::SetClient()

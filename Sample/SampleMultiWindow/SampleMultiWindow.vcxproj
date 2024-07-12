@@ -164,7 +164,9 @@
     <ClInclude Include="Win32Windows\HostDIMG.h" />
     <ClInclude Include="Win32Windows\NvrTab.h" />
     <ClInclude Include="Win32Windows\NvrWindow.h" />
+    <ClInclude Include="Win32Windows\TabComps.h" />
     <ClInclude Include="Win32Windows\TabIMGUI.h" />
+    <ClInclude Include="Win32Windows\TestCpannel.h" />
     <ClInclude Include="Win32Windows\TestTab.h" />
     <ClInclude Include="Win32Windows\TestWindow.h" />
     <ClInclude Include="Win32Windows\TestWindow1.h" />
@@ -183,7 +185,9 @@
     <ClCompile Include="Win32Windows\HostDIMG.cpp" />
     <ClCompile Include="Win32Windows\NvrTab.cpp" />
     <ClCompile Include="Win32Windows\NvrWindow.cpp" />
+    <ClCompile Include="Win32Windows\TabComps.cpp" />
     <ClCompile Include="Win32Windows\TabIMGUI.cpp" />
+    <ClCompile Include="Win32Windows\TestCpannel.cpp" />
     <ClCompile Include="Win32Windows\TestTab.cpp" />
     <ClCompile Include="Win32Windows\TestWindow.cpp" />
     <ClCompile Include="Win32Windows\TestWindow1.cpp" />

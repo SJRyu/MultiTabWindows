@@ -153,6 +153,7 @@
     <ClInclude Include="composition\Cvobj.h" />
     <ClInclude Include="composition\InputSync.h" />
     <ClInclude Include="directx\composition.interop.h" />
+    <ClInclude Include="directx\Compositionhelper.h" />
     <ClInclude Include="directx\D2dComponents.h" />
     <ClInclude Include="directx\direct3d11.interop.h" />
     <ClInclude Include="directx\DXimports.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="composition\Cpannel.cpp" />
     <ClCompile Include="composition\Cvobj.cpp" />
     <ClCompile Include="composition\InputSync.cpp" />
+    <ClCompile Include="directx\CompositionHelper.cpp" />
     <ClCompile Include="directx\D2dComponents.cpp" />
     <ClCompile Include="directx\EditableLayout.cpp" />
     <ClCompile Include="directx\TextRenderer.cpp" />

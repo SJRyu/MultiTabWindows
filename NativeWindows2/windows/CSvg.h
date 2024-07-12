@@ -28,7 +28,6 @@ namespace NativeWindows
 	protected:
 
 		CSvg() = delete;
-		// can we make copy operataion?
 
 		inline void ReleaseResources()
 		{

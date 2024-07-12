@@ -102,6 +102,7 @@ void D2dComponents::CreateBitmapDc()
 {
 	HR(refres_->d2dDevice_->CreateDeviceContext(
 		D2D1_DEVICE_CONTEXT_OPTIONS_NONE, bitmapdc_.put()));
+	refBitmapDc_ = bitmapdc_.get();
 
 	bmprops_.dpiX = 0;
 	bmprops_.dpiY = 0;

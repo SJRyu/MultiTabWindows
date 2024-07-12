@@ -6,8 +6,6 @@
 
 namespace NativeWindows
 {
-	class Win32UIThread;
-
 	class NATIVEWINDOWS2_API Cpannel : public Win32Window, public CvRoot
 	{
 	public:
@@ -15,21 +13,17 @@ namespace NativeWindows
 
 		inline Cpannel(WinArgs const& args) : Win32Window(args){}
 
-		virtual ~Cpannel()
-		{
-		}
+		virtual ~Cpannel(){}
 
 	protected:
 
-		virtual void Bind();
+		virtual LRESULT CALLBACK OnCreate1(LPCREATESTRUCT createstr) { return 0; }
 
-		virtual LRESULT CALLBACK OnCreate1(LPCREATESTRUCT createstr) { return 0; };
 		virtual LRESULT CALLBACK OnCreate(LPCREATESTRUCT createstr) override
-		{
-			Bind();
+		{ 
+			Bind(this);
 			return OnCreate1(createstr);
-		}
-
+		};
 	};
 
 }

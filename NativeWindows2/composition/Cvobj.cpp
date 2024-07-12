@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <NativeWindows2/composition/Cvobj.h>
 #include <NativeWindows2/composition/Cpannel.h>
+#include <NativeWindows2/windows/Win32Window.h>
 #include <NativeWindows2/Win32UIThread.h>
 
 void Cvobj1::Bind(Cvi* parent)
@@ -38,6 +39,28 @@ void Cvobj1::Bind(Cvi* parent)
 
 	animesize_ = refres_->compositor_.CreateVector2KeyFrameAnimation();
 	animesize_.Duration(timespan(400));
+}
+
+void CvRoot::Bind(Win32Window* win)
+{
+	vparent_ = this;
+	refres_ = win->thread_->res_.get();
+
+	rootv_ = refres_->compositor_.CreateContainerVisual();
+	rootv_.RelativeSizeAdjustment({ 1.0f, 1.0f });
+
+	auto target = CreateDesktopWindowTarget(refres_->compositor_, win->hwnd_);
+	target.Root(rootv_);
+
+	topv_ = refres_->compositor_.CreateContainerVisual();
+	topv_.RelativeSizeAdjustment({ 1.0f, 1.0f });
+	bottomv_ = refres_->compositor_.CreateContainerVisual();
+	bottomv_.RelativeSizeAdjustment({ 1.0f, 1.0f });
+
+	rootv_.Children().InsertAtTop(topv_);
+	rootv_.Children().InsertAtBottom(bottomv_);
+
+	visuals_ = bottomv_.Children();
 }
 
 Cvi* Cvi::HitTest(UINT msg, WPARAM wp, LPARAM lp, std::list<Cvi*>& chlist)

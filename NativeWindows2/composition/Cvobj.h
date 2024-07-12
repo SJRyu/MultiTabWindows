@@ -14,6 +14,8 @@ namespace NativeWindows
 	using namespace Windows::UI::Composition::Desktop;
 	namespace abicomp = ABI::Windows::UI::Composition;
 
+	class Win32Window;
+
 	class NATIVEWINDOWS2_API Cvobj
 	{
 	public:
@@ -78,6 +80,8 @@ namespace NativeWindows
 	public:
 
 		Cvi* mfocused_ = nullptr;
+
+		void WINAPI Bind(Win32Window* win);
 
 		virtual Cvi* WINAPI HitTest(UINT msg, WPARAM wp, LPARAM lp) override;
 

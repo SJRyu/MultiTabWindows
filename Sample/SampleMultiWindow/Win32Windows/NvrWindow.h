@@ -28,7 +28,7 @@ namespace NativeWindows
 		static constexpr int MIN_WIDTH = 1280;
 		static constexpr int MIN_HEIGHT = 720;
 
-		virtual void WINAPI MinSize(int* w, int* h) override
+		virtual void WINAPI GetMinSize(int* w, int* h) override
 		{ 
 			*w = MIN_WIDTH;
 			*h = MIN_HEIGHT;

@@ -106,10 +106,8 @@ namespace NativeWindows
 
 		virtual void SetTarget(Win32Window* target) override
 		{
-			// target must be D2dWindow1
-			auto temp = static_cast<D2dWindow1*>(target);
-			temp->SetWindowArgs({ nullptr, this, thread_ });
-			temp->MinSize(&tminw_, &tminh_);
+			target->SetWindowArgs({ nullptr, this, thread_ });
+			target->GetMinSize(&tminw_, &tminh_);
 			target_ = wunique_ptr<Win32Window>(target);
 		}
 

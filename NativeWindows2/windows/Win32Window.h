@@ -72,7 +72,7 @@ namespace NativeWindows
 		//Child into child only allowed. and need samethread on parents.
 		virtual HWND WINAPI SetParent(Win32Window* parent);
 
-		virtual void WINAPI MinSize(int* w, int* h) { *w = 0; *h = 0; }
+		virtual void WINAPI GetMinSize(int* w, int* h) { *w = 0; *h = 0; }
 		virtual void CALLBACK OnPageResize(int w, int h) {}
 
 		// assert for debugging, have to clear in release.

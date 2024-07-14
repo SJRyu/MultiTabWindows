@@ -4,7 +4,21 @@
 #include <NativeWindows2/windows/Win32Window.h>
 #include <NativeWindows2/Win32UIThread.h>
 
-void Cvobj1::Bind(Cvi* parent)
+void Cvobj::CreateBitmapDc()
+{
+	HR(refres_->d2dDevice_->CreateDeviceContext(
+		D2D1_DEVICE_CONTEXT_OPTIONS_NONE, bitmapdc_.put()));
+	refBitmapDc_ = bitmapdc_.get();
+
+	bmprops_.dpiX = 0;
+	bmprops_.dpiY = 0;
+	bmprops_.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+	bmprops_.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	bmprops_.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW;
+	bmprops_.colorContext = nullptr;
+}
+
+void CvChild::Bind(Cvi* parent)
 {
 	Cvi::Bind(parent, this);
 
@@ -49,8 +63,8 @@ void CvRoot::Bind(Win32Window* win)
 	rootv_ = refres_->compositor_.CreateContainerVisual();
 	rootv_.RelativeSizeAdjustment({ 1.0f, 1.0f });
 
-	auto target = CreateDesktopWindowTarget(refres_->compositor_, win->hwnd_);
-	target.Root(rootv_);
+	target_ = CreateDesktopWindowTarget(refres_->compositor_, win->hwnd_);
+	target_.Root(rootv_);
 
 	topv_ = refres_->compositor_.CreateContainerVisual();
 	topv_.RelativeSizeAdjustment({ 1.0f, 1.0f });
@@ -134,7 +148,7 @@ Cvi* CvRoot::HitTest(UINT msg, WPARAM wp, LPARAM lp)
 	return ret;
 }
 
-Cvi* Cvobj1::HitTest(UINT msg, WPARAM wp, LPARAM lp)
+Cvi* CvChild::HitTest(UINT msg, WPARAM wp, LPARAM lp)
 {
 	Cvi* ret = nullptr;
 	POINT xy = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };

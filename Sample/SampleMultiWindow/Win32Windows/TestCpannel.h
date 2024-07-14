@@ -13,6 +13,7 @@ namespace NativeWindows
 		inline TestCpannel(TabComps* tab) : tab_(tab)
 		{
 			wstyle_ |= WS_VISIBLE;
+			color_ = Windows::UI::Colors::YellowGreen();
 		};
 		virtual ~TestCpannel() {}
 

@@ -26,7 +26,7 @@ namespace NativeWindows
 	{
 	public:
 
-		VideoView(D2dWinArgs const& args, int chn, int pos);
+		VideoView(WinArgs const& args, int chn, int pos);
 		virtual ~VideoView();
 
 		wunique_ptr<CText> namew_;

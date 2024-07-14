@@ -9,12 +9,12 @@ namespace NativeWindows
 	public:
 
 		CButton(
-			D2dWinArgs const& args,
+			WinArgs const& args,
 			Windows::UI::Color const& bg = Color{ 0xFF, 0, 0, 0 });
 		virtual ~CButton();
 
 		Windows::UI::Color Bgcolor() { return bg_; }
-		virtual void Bgcolor(Color bg);
+		virtual void Bgcolor(Windows::UI::Color const& bg);
 
 		std::function<int(CButton*)> OnSetup = [](CButton*) { return 0; };
 		std::function<void(CButton*)> OnBtnClose = [](CButton*) {};
@@ -62,10 +62,10 @@ namespace NativeWindows
 	{
 	public:
 
-		CButton1(D2dWinArgs const& args);
+		CButton1(WinArgs const& args);
 		virtual ~CButton1();
 
-		virtual void [[deprecated]] Bgcolor(Color bg) override { /* no effect */ };
+		virtual void [[deprecated]] Bgcolor(Windows::UI::Color const& bg) override { /* no effect */ };
 
 		std::function<void(CButton1*, ID2D1DeviceContext*, int, int)> OnRedrawBg = [](CButton1*, ID2D1DeviceContext*, int w, int h) {};
 
@@ -99,11 +99,11 @@ namespace NativeWindows
 	{
 	public:
 
-		CEllipseButton(D2dWinArgs const& args,
-			Color const& bg = Color{ 0xFF, 0, 0, 0 });
+		CEllipseButton(WinArgs const& args,
+			Windows::UI::Color const& bg = Color{ 0xFF, 0, 0, 0 });
 		virtual ~CEllipseButton();
 
-		virtual void Bgcolor(Color bg) override;
+		virtual void Bgcolor(Windows::UI::Color const& bg) override;
 
 	protected:
 

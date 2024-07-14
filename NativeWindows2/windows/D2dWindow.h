@@ -39,21 +39,20 @@ namespace NativeWindows
 		}
 	};
 
-	struct D2dWinArgs
-	{
-		RECT* rect = nullptr;
-		D2dWindow* parent = nullptr;
-		Win32UIThread* thread = nullptr;
-	};
-
 	class NATIVEWINDOWS2_API D2dWindow1 : public D2dWindow
 	{
 	public:
 
 		inline D2dWindow1() {}
-		inline D2dWindow1(D2dWinArgs const& args)
+		inline D2dWindow1(WinArgs const& args)
 		{
-			SetD2dArgs(args);
+			SetWindowArgs(args);
+		}
+
+		virtual void WINAPI SetWindowArgs(WinArgs const& args) override
+		{
+			d2dparent_ = static_cast<D2dWindow*>(args.parent);
+			Win32Window::SetWindowArgs(args);
 		}
 
 		virtual ~D2dWindow1()
@@ -64,13 +63,7 @@ namespace NativeWindows
 			}
 		}
 
-		inline void SetD2dArgs(D2dWinArgs const& args)
-		{
-			SetWindowArgs({ args.rect, args.parent, args.thread });
-			d2dparent_ = args.parent;
-		}
-
-		D2dWindow* d2dparent_;
+		D2dWindow* d2dparent_ = nullptr;
 
 		virtual HWND WINAPI SetParent(Win32Window* parent) override
 		{

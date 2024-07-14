@@ -1,7 +1,7 @@
 #include <pch.h>
 #include <NativeWindows2/windows/CButton.h>
 
-CButton1::CButton1(D2dWinArgs const& args) : CButton(args)
+CButton1::CButton1(WinArgs const& args) : CButton(args)
 {
 }
 
@@ -11,8 +11,8 @@ CButton1::~CButton1()
 
 LRESULT CButton1::OnCreate1(LPCREATESTRUCT createstr)
 {
-	float w = (float)window_->rect_.width;
-	float h = (float)window_->rect_.height;
+	float w = (float)rect_.width;
+	float h = (float)rect_.height;
 
 	visualb_ = AddD2dVisual(surfaceb_);
 	visualb_.Opacity(0.0f);
@@ -54,7 +54,7 @@ void CButton1::Redraw(LONG w, LONG h)
 	}
 }
 
-CEllipseButton::CEllipseButton(D2dWinArgs const& args, Color const& bg) :
+CEllipseButton::CEllipseButton(WinArgs const& args, Color const& bg) :
 	CButton(args, bg)
 {
 }
@@ -63,15 +63,15 @@ CEllipseButton::~CEllipseButton()
 {
 }
 
-void CEllipseButton::Bgcolor(Color bg)
+void CEllipseButton::Bgcolor(Windows::UI::Color const& bg)
 {
 	shapeb_.FillBrush(this->Compositor().CreateColorBrush(bg));
 }
 
 LRESULT CEllipseButton::OnCreate1(LPCREATESTRUCT createstr)
 {
-	float w = (float)window_->rect_.width;
-	float h = (float)window_->rect_.height;
+	float w = (float)rect_.width;
+	float h = (float)rect_.height;
 
 	auto vb = AddShapeVisual();
 	vb.Opacity(0.0f);

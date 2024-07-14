@@ -15,7 +15,7 @@ namespace NativeWindows
 	{
 	public:
 
-		ScrollNotch(D2dWinArgs const& args);
+		ScrollNotch(WinArgs const& args);
 		virtual ~ScrollNotch();
 
 	protected:
@@ -108,7 +108,7 @@ namespace NativeWindows
 		{
 			// target must be D2dWindow1
 			auto temp = static_cast<D2dWindow1*>(target);
-			temp->SetD2dArgs({ nullptr, this, thread_ });
+			temp->SetWindowArgs({ nullptr, this, thread_ });
 			temp->MinSize(&tminw_, &tminh_);
 			target_ = wunique_ptr<Win32Window>(target);
 		}

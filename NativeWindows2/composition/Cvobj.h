@@ -2,6 +2,7 @@
 
 #include <NativeWindows2/composition/InputSync.h>
 #include <NativeWindows2/template/templates.h>
+#include <NativeWindows2/directx/Compositionhelper.h>
 #include <NativeWindows2/directx/IndependentRes.h>
 
 namespace NativeWindows
@@ -27,6 +28,93 @@ namespace NativeWindows
 		ContainerVisual bottomv_{ nullptr };
 		VisualCollection visuals_{ nullptr };
 
+		//staple dc for svg and textwriter
+		com_ptr<ID2D1DeviceContext6> bitmapdc_;
+		ID2D1DeviceContext6* refBitmapDc_ = nullptr;
+		D2D1_BITMAP_PROPERTIES1 bmprops_;
+
+		void CreateBitmapDc();
+
+		inline ShapeVisual AddShapeVisual()
+		{
+			auto visual = refres_->compositor_.CreateShapeVisual();
+			visual.RelativeSizeAdjustment({ 1.0f, 1.0f });
+			visuals_.InsertAtTop(visual);
+
+			return visual;
+		}
+
+		inline ShapeVisual AddShapeVisual(float w, float h)
+		{
+			auto visual = refres_->compositor_.CreateShapeVisual();
+			visual.Size({ w, h });
+			visuals_.InsertAtTop(visual);
+
+			return visual;
+		}
+
+		inline SpriteVisual AddColorVisual(Windows::UI::Color const& color)
+		{
+			return CompositionHelper::CreateColorVisual1(refres_->compositor_, color, visuals_);
+		}
+
+		inline SpriteVisual AddColorVisual(Windows::UI::Color const& color, float w, float h)
+		{
+			return CompositionHelper::CreateColorVisual1(refres_->compositor_, color, visuals_, w, h);
+		}
+
+		inline SpriteVisual AddD2dVisual(
+			OUT CompositionDrawingSurface& surface,
+			CompositionStretch stretch = CompositionStretch::None)
+		{
+			return CompositionHelper::CreateD2dVisual1(refres_, surface, visuals_, stretch);
+		}
+
+		inline SpriteVisual AddD2dVisual(
+			OUT CompositionDrawingSurface& surface, float w, float h,
+			CompositionStretch stretch = CompositionStretch::None)
+		{
+			return CompositionHelper::CreateD2dVisual1(refres_, surface, visuals_, w, h, stretch);
+		}
+
+		inline SpriteVisual AddD2dVirtualSurface(
+			OUT CompositionVirtualDrawingSurface& surface)
+		{
+			return CompositionHelper::CreateD2dVirtualSurface1(refres_, surface, visuals_);
+		}
+
+		inline SpriteVisual AddD2dVirtualSurface(
+			OUT CompositionVirtualDrawingSurface& surface, float w, float h)
+		{
+			return CompositionHelper::CreateD2dVirtualSurface1(refres_, surface, visuals_, w, h);
+		}
+
+		inline auto BeginDraw(IN CompositionDrawingSurface& surface, IN RECT const* rect = nullptr)
+		{
+			return CompositionHelper::BeginDraw(surface, rect);
+		}
+
+		inline void EndDraw(IN CompositionDrawingSurface& surface)
+		{
+			CompositionHelper::EndDraw(surface);
+		}
+
+		inline auto BeginDraw1(IN CompositionDrawingSurface& surface, IN RECT const* rect = nullptr)
+		{
+			auto dc = refBitmapDc_;
+
+			if (!CompositionHelper::BeginDraw1(dc, bmprops_, surface, rect))
+			{
+				dc = nullptr;
+			}
+
+			return dc;
+		}
+
+		inline void EndDraw1(CompositionDrawingSurface& surface)
+		{
+			CompositionHelper::EndDraw1(refBitmapDc_, surface);
+		}
 	};
 
 	class NATIVEWINDOWS2_API Cvi : public Cvobj, public InputSync
@@ -47,7 +135,7 @@ namespace NativeWindows
 		virtual Cvi* HitTest(UINT msg, WPARAM wp, LPARAM lp) = 0;
 	};
 
-	class NATIVEWINDOWS2_API Cvobj1 : public Cvi
+	class NATIVEWINDOWS2_API CvChild : public Cvi
 	{
 	public:
 		virtual void Bind(Cvi* parent);
@@ -69,6 +157,26 @@ namespace NativeWindows
 		Vector3KeyFrameAnimation animemove_{ nullptr };
 		Vector2KeyFrameAnimation animesize_{ nullptr };
 
+		template <typename T>
+		inline auto AnimeMoveVisuals(T x, T y)
+		{
+			animemove_.InsertKeyFrame(1.0f, { (float)x, (float)y, 0.0f });
+			rootv_.StartAnimation(L"Offset", animemove_);
+		}
+
+		template <typename T>
+		inline auto AnimeSizeVisuals(T w, T h)
+		{
+			animesize_.InsertKeyFrame(1.0f, { (float)w, (float)h });
+			rootv_.StartAnimation(L"Size", animesize_);
+		}
+
+		inline auto PlaceAtTop()
+		{
+			parentv_.Remove(rootv_);
+			parentv_.InsertAtTop(rootv_);
+		}
+
 		virtual Cvi* WINAPI HitTest(UINT msg, WPARAM wp, LPARAM lp) override;
 
 	protected:
@@ -78,6 +186,8 @@ namespace NativeWindows
 	class NATIVEWINDOWS2_API CvRoot : public Cvi
 	{
 	public:
+
+		DesktopWindowTarget target_{ nullptr };
 
 		Cvi* mfocused_ = nullptr;
 

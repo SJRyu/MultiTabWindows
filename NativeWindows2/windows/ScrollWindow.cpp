@@ -2,7 +2,7 @@
 #include <NativeWindows2/windows/ScrollWindow.h>
 #include <NativeWindows2/MainLoop.h>
 
-ScrollNotch::ScrollNotch(D2dWinArgs const& args) :
+ScrollNotch::ScrollNotch(WinArgs const& args) :
 	D2dWindow1(args)
 {
 
@@ -44,19 +44,19 @@ LRESULT ScrollWindow::OnCreate1(LPCREATESTRUCT createstr)
 
 	auto thick = DpiVal(SCROLLBARTHICK);
 	RECT rc{ 0, 0, thick, thick };
-	notch_ = wmake_unique<ScrollNotch>(D2dWinArgs{ &rc, this });
+	notch_ = wmake_unique<ScrollNotch>(WinArgs{ &rc, this });
 	notch_->CreateEx();
 	notch_->SetWindowPos(HWND_TOP, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW1);
 
 	rc = { 0, thick, thick, h };
-	vscroll_ = wmake_unique<Scrollbar>(D2dWinArgs{ &rc, this });
+	vscroll_ = wmake_unique<Scrollbar>(WinArgs{ &rc, this });
 	vscroll_->CreateEx();
 	vscroll_->SetWindowPos(HWND_TOP, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW1);
 
 	rc = { thick, 0, w, thick };
-	hscroll_ = wmake_unique<Scrollbar>(D2dWinArgs{ &rc, this }, true);
+	hscroll_ = wmake_unique<Scrollbar>(WinArgs{ &rc, this }, true);
 	hscroll_->CreateEx();
 	hscroll_->SetWindowPos(HWND_TOP, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW1);

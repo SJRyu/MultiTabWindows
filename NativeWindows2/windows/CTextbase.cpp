@@ -72,7 +72,7 @@ namespace
 	}
 }
 
-CTextbase::CTextbase(D2dWinArgs const& args, Windows::UI::Color const& bg) :
+CTextbase::CTextbase(WinArgs const& args, Windows::UI::Color const& bg) :
 	D2dWindow1(args), bgcolor_(bg)
 {
 	effectBase_.color_ = D2D1::ColorF(D2D1::ColorF::Black);
@@ -80,7 +80,7 @@ CTextbase::CTextbase(D2dWinArgs const& args, Windows::UI::Color const& bg) :
 	effectBase_.olthickness_ = 0;
 }
 
-CTextbase::CTextbase(D2dWinArgs const& args,
+CTextbase::CTextbase(WinArgs const& args,
 	TextDrawingEffectBase const& effect, Windows::UI::Color const& bg) :
 	D2dWindow1(args), bgcolor_(bg)
 {

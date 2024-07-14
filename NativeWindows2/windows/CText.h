@@ -10,9 +10,9 @@ namespace NativeWindows
 	public:
 		const INT32 maxCharacters_ = 255;
 
-		CText(D2dWinArgs const& args,
+		CText(WinArgs const& args,
 			Windows::UI::Color const& bg = Windows::UI::Colors::White());
-		CText(D2dWinArgs const& args, TextDrawingEffectBase const& effect,
+		CText(WinArgs const& args, TextDrawingEffectBase const& effect,
 			Windows::UI::Color const& bg = Windows::UI::Colors::White());
 		virtual ~CText();
 

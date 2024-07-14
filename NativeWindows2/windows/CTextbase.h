@@ -31,9 +31,9 @@ namespace NativeWindows
 		};
 
 		CTextbase() = delete;
-		CTextbase(D2dWinArgs const& args,
+		CTextbase(WinArgs const& args,
 			Windows::UI::Color const& bg = Windows::UI::Colors::White());
-		CTextbase(D2dWinArgs const& args, TextDrawingEffectBase const& effect,
+		CTextbase(WinArgs const& args, TextDrawingEffectBase const& effect,
 			Windows::UI::Color const& bg = Windows::UI::Colors::White());
 		virtual ~CTextbase();
 

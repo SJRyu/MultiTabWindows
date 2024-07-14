@@ -75,7 +75,7 @@ LRESULT TabWindow::OnCreate1(LPCREATESTRUCT createstr)
 	rect.bottom = rect.top + hhh;
 
 	btnclose_ = wmake_unique<CEllipseButton>(
-		D2dWinArgs{ &rect, this }, Color{ 0xFF, 255, 255, 153 });
+		WinArgs{ &rect, this }, Color{ 0xFF, 255, 255, 153 });
 
 	btnclose_->OnSetup = [](CButton* btn) -> int
 	{

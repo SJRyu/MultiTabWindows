@@ -49,7 +49,7 @@ LRESULT Ctab::OnCreate1(LPCREATESTRUCT createstr)
 	RECT rect{ btnaddx_, btnaddy_, btnaddx_ + btnaddr_, btnaddy_ + btnaddr_ };
 
 	btnadd_ = wmake_unique<CEllipseButton>(
-		D2dWinArgs{ &rect, this }, Color{ 0xFF, 0x20, 0x80, 0xE0 });
+		WinArgs{ &rect, this }, Color{ 0xFF, 0x20, 0x80, 0xE0 });
 	btnadd_->OnRedraw = [](CButton* btn, ID2D1DeviceContext* dc, int w, int h)
 	{
 		FLOAT ww = (FLOAT)w / 2;

@@ -2,7 +2,7 @@
 #include <NativeWindows2/windows/VideoWindow.h>
 #include <NativeWindows2/Win32UIThread.h>
 
-VideoWindow::VideoWindow(D2dWinArgs const& args) :
+VideoWindow::VideoWindow(WinArgs const& args) :
 	D2dWindow1(args), indres_(thread_->res_.get())
 {
 	assert(parent_ != nullptr);

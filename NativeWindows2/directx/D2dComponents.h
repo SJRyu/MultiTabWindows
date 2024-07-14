@@ -21,15 +21,10 @@ namespace NativeWindows
 	{
 	public:
 
-		enum : INT32
-		{
-			VIRTUALSURFACE_MAXPIXEL = 2 << 23,
-		};
-
 		Win32Window* window_ = nullptr;
 		IndependentRes* refres_ = nullptr;
 
-		DesktopWindowTarget target_{ nullptr }; //useless
+		DesktopWindowTarget target_{ nullptr };
 		VisualCollection parentv_{ nullptr };
 
 		ContainerVisual rootv_{ nullptr };
@@ -166,7 +161,7 @@ namespace NativeWindows
 			parentv_.InsertAtTop(rootv_);
 		}
 
-		D2D1::Matrix3x2F mat_;
+		//D2D1::Matrix3x2F mat_;
 
 		com_ptr<ID2D1DeviceContext6> bitmapdc_;
 		ID2D1DeviceContext6* refBitmapDc_ = nullptr;

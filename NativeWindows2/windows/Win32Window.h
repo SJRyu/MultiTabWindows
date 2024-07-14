@@ -67,7 +67,7 @@ namespace NativeWindows
 		Win32Window(Win32Window const& r) = delete;
 		Win32Window& operator=(const Win32Window& r) = delete;
 
-		void WINAPI SetWindowArgs(WinArgs const& args);
+		virtual void WINAPI SetWindowArgs(WinArgs const& args);
 
 		//Child into child only allowed. and need samethread on parents.
 		virtual HWND WINAPI SetParent(Win32Window* parent);

@@ -2,7 +2,7 @@
 #include <NativeWindows2/windows/Scrollbar.h>
 #include <NativeWindows2/windows/ScrollWindow.h>
 
-Scrollbar::Scrollbar(D2dWinArgs const& args, bool bHorizontal) :
+Scrollbar::Scrollbar(WinArgs const& args, bool bHorizontal) :
 	D2dWindow1(args), bHorizontal_(bHorizontal)
 {
 	scrollwin_ = (ScrollWindow*)args.parent;
@@ -34,7 +34,7 @@ LRESULT Scrollbar::OnCreate1(LPCREATESTRUCT createstr)
 
 	RECT rc{ 0, 0, thick, thick };
 
-	ball_ = wmake_unique<Scrollball>(D2dWinArgs{ &rc, this });
+	ball_ = wmake_unique<Scrollball>(WinArgs{ &rc, this });
 	ball_->CreateEx();
 	ball_->ShowWindow();
 
@@ -115,7 +115,7 @@ void Scrollbar::MoveBall(int x, int y)
 
 /****************************************************************************************/
 
-Scrollball::Scrollball(D2dWinArgs const& args) :
+Scrollball::Scrollball(WinArgs const& args) :
 	D2dWindow1(args)
 {
 	bar_ = (Scrollbar*)args.parent;

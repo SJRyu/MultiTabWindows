@@ -11,7 +11,7 @@ namespace NativeWindows
 	{
 	public:
 
-		Scrollball(D2dWinArgs const& args);
+		Scrollball(WinArgs const& args);
 		virtual ~Scrollball();
 
 	protected:
@@ -45,7 +45,7 @@ namespace NativeWindows
 	{
 	public:
 
-		Scrollbar(D2dWinArgs const& args, bool bHorizontal = false);
+		Scrollbar(WinArgs const& args, bool bHorizontal = false);
 		virtual ~Scrollbar();
 
 		Scrollbar& operator=(ScrollInfo const& r)

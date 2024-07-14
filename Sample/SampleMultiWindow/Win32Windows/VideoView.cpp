@@ -10,7 +10,7 @@
 
 using namespace NativeWindows;
 
-VideoView::VideoView(D2dWinArgs const& args, int chn, int pos) :
+VideoView::VideoView(WinArgs const& args, int chn, int pos) :
 	VideoWindow(args), channel_(chn), position_(pos)
 {
 	wstyle_ |= WS_VISIBLE;
@@ -33,8 +33,8 @@ LRESULT VideoView::OnCreate1(LPCREATESTRUCT createstr)
 	effect.olthickness_ = 2.0f;
 
 	namew_ = wmake_unique<CText>(
-		//D2dWinArgs{ &rc, this }, effect, Windows::UI::Color{ 0, 0, 0, 0 }
-		D2dWinArgs{ &rc, this }, effect
+		//WinArgs{ &rc, this }, effect, Windows::UI::Color{ 0, 0, 0, 0 }
+		WinArgs{ &rc, this }, effect
 	);
 	namew_->fontAxis_[0].value = (FLOAT)DWRITE_FONT_WEIGHT_DEMI_BOLD;
 	namew_->fontSize_ = nameh_;

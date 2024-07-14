@@ -3,13 +3,13 @@
 #include <NativeWindows2/directx/TextRenderer.h>
 #include <NativeWindows2/directx/EditableLayout.h>
 
-CText::CText(D2dWinArgs const& args, Windows::UI::Color const& bg) :
+CText::CText(WinArgs const& args, Windows::UI::Color const& bg) :
 	CTextbase(args, bg)
 {
 
 }
 
-CText::CText(D2dWinArgs const& args,
+CText::CText(WinArgs const& args,
 	TextDrawingEffectBase const& effect, Windows::UI::Color const& bg) :
 	CTextbase(args, effect, bg)
 {

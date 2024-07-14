@@ -11,6 +11,7 @@
 #include <Win32Windows/NvrTab.h>
 #include <Win32Windows/NvrWindow.h>
 #include <Win32Windows/TabIMGUI.h>
+#include <Win32Windows/TabComps.h>
 
 using namespace NativeWindows;
 using namespace winrt;
@@ -46,8 +47,10 @@ void MyApp::OnAppStart()
 	auto win = NewContainer(rect);
 	auto ctab = win->ctab_.get();
 
-	//NvrTab* tab = new NvrTab(ctab);
-	TabIMGUI* tab = new TabIMGUI(ctab);
+	auto tab = 
+		//new NvrTab(ctab);
+		new TabIMGUI(ctab);
+		//new TabComps(ctab);
 	ctab->PostAdd(tab);
 }
 

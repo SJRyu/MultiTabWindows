@@ -42,7 +42,6 @@ void D2dComponents::ReleaseCompositor()
 void D2dComponents::InitCompositor1(D2dComponents* parent)
 {
 	refres_ = window_->thread_->res_.get();
-	target_ = parent->target_;
 
 	CRECT<FLOAT> rect = window_->rect_;
 	rootv_ = refres_->compositor_.CreateContainerVisual();
@@ -84,8 +83,6 @@ void D2dComponents::NewCompParent(D2dComponents* newp)
 
 	parentv_ = newp->topv_.Children();
 	parentv_.InsertAtTop(rootv_);
-
-	target_ = newp->target_; //target_ isn't needed
 }
 
 void D2dComponents::ReleaseCompositor1()

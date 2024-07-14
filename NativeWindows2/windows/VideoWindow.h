@@ -9,7 +9,7 @@ namespace NativeWindows
 	{
 	public:
 
-		VideoWindow(D2dWinArgs const& args);
+		VideoWindow(WinArgs const& args);
 		virtual ~VideoWindow();
 
 		inline auto D3dDevice()

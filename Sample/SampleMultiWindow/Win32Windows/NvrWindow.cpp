@@ -24,7 +24,7 @@ LRESULT VideoPannel::OnCreate1(LPCREATESTRUCT createstr)
 		RECT rect{ x + 1, y + 1, x + cw - 2, y + ch - 2 };
 
 		views_[pos] = wmake_unique<VideoView>(
-			D2dWinArgs{ &rect, this }, pos, pos);
+			WinArgs{ &rect, this }, pos, pos);
 		views_[pos]->CreateEx();
 	}
 

@@ -1,7 +1,7 @@
 #include <pch.h>
 #include <NativeWindows2/windows/CButton.h>
 
-CButton::CButton(D2dWinArgs const& args, Color const& bg) :
+CButton::CButton(WinArgs const& args, Color const& bg) :
 	D2dWindow1(args), bg_(bg)
 {
 	assert(parent_ != nullptr);
@@ -13,8 +13,8 @@ CButton::~CButton()
 
 LRESULT CButton::OnCreate1(LPCREATESTRUCT createstr)
 {
-	float w = (float)window_->rect_.width;
-	float h = (float)window_->rect_.height;
+	float w = (float)rect_.width;
+	float h = (float)rect_.height;
 
 	visualb_ = AddColorVisual(bg_);
 	visualb_.Opacity(0.0f);
@@ -129,7 +129,7 @@ void CButton::Redraw(LONG w, LONG h)
 	}
 }
 
-void CButton::Bgcolor(Color bg)
+void CButton::Bgcolor(Windows::UI::Color const& bg)
 {
 	visualb_.as<SpriteVisual>().Brush(
 	this->Compositor().CreateColorBrush(bg));
